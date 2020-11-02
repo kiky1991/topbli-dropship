@@ -46,7 +46,8 @@ if (!class_exists('Tobli_Dropship')) {
             }
 
             // Lets run our class
-            // new TOPDROP_Admin();
+            new TOPDROP_Admin();
+            new TOPDROP_Woocommerce();
             // new TOPDROP_Ajax();
             register_activation_hook(__FILE__, array($this, 'on_plugin_activation'));
         }
