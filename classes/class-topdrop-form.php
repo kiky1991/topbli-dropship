@@ -40,7 +40,7 @@ class TOPDROP_Form
             ),
             'topdrop_phone' => array(
                 'field' => array(
-                    'type'        => 'text',
+                    'type'        => 'tel',
                     'label'       => __('Phone', 'topdrop'),
                     'placeholder' => __('Your dropship phone', 'topdrop'),
                     'required'    => true,

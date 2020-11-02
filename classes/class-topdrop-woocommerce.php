@@ -251,9 +251,30 @@ class TOPDROP_Woocommerce
             return;
         }
 
+        $required = ['topdrop_name' => 'Dropship Name', 'topdrop_phone' => 'Dropship Phone'];
+        $errors = array();
+        foreach (array_keys($_POST) as $post) {
+            if (empty($_POST[$post]) && in_array($post, array_keys($required))) {
+                $errors[] = $required[$post];
+            }
+        }
+
+        if (!empty($errors)) {
+            wc_add_notice(__('Field ' . implode(', ', $errors) . ' is required', 'topdrop'), 'error');
+            wp_safe_redirect(wc_get_page_permalink('myaccount') . 'dropship');
+            exit;
+        }
+
         $name = isset($_POST['topdrop_name']) ? sanitize_text_field(wp_unslash($_POST['topdrop_name'])) : '';   // WPCS: Input var okay, CSRF ok.
         $phone = isset($_POST['topdrop_phone']) ? sanitize_text_field(wp_unslash($_POST['topdrop_phone'])) : '';   // WPCS: Input var okay, CSRF ok.
         $auto = isset($_POST['topdrop_auto']) ? sanitize_text_field(wp_unslash($_POST['topdrop_auto'])) : 0;   // WPCS: Input var okay, CSRF ok.
+
+        $is_correct = preg_match('/^[0-9]{6,20}$/', $phone);
+        if ($phone && !$is_correct) {
+            wc_add_notice(__('Field Dropship Phone is not correct input', 'topdrop'), 'error');
+            wp_safe_redirect(wc_get_page_permalink('myaccount') . 'dropship');
+            exit;
+        }
 
         update_user_meta($user_id, 'topdrop_dropship_name', $name);
         update_user_meta($user_id, 'topdrop_dropship_phone', $phone);
