@@ -13,6 +13,8 @@ if (!class_exists('TOPDROP_Admin')) {
          */
         public function __construct()
         {
+            add_filter('woocommerce_account_settings', array($this, 'add_settings'));
+
             // show field in user profile
             add_action('show_user_profile', array($this, 'show_form_dropship'), 30, 1);
             add_action('edit_user_profile', array($this, 'show_form_dropship'), 30, 1);
@@ -24,6 +26,32 @@ if (!class_exists('TOPDROP_Admin')) {
             add_action('admin_notices', array($this, 'display_flash_notices'), 12);
 
             $this->helper      = new TOPDROP_Helper();
+        }
+
+        public function add_settings($settings)
+        {
+            // return $settings;
+            $new_settings = array();
+            foreach ($settings as $setting) {
+                if (isset($setting['title']) && $setting['title'] === 'Login') {
+                    $setting['checkboxgroup'] = '';
+                    $new_settings[] = $setting;
+
+                    $new_settings[] = array(
+                        'title'         => __('Dropship', 'topdrop'),
+                        'desc'          => __('Allow customers to dropship information in checkout page', 'topdrop'),
+                        'id'            => 'woocommerce_enable_customer_dropship',
+                        'default'       => 'no',
+                        'type'          => 'checkbox',
+                        'checkboxgroup' => 'end',
+                        'autoload'      => false,
+                    );
+                } else {
+                    $new_settings[] = $setting;
+                }
+            }
+
+            return $new_settings;
         }
 
         public function show_form_dropship($user)
