@@ -28,6 +28,14 @@ if (!class_exists('TOPDROP_Admin')) {
             $this->helper      = new TOPDROP_Helper();
         }
 
+        /**
+         * TOPDROP_Admin::add_settings
+         * 
+         * Add custom setting field
+         * @param   array   $settings  array fields
+         * 
+         * @return  array  $new_settings  array fields    
+         */
         public function add_settings($settings)
         {
             // return $settings;
@@ -54,6 +62,14 @@ if (!class_exists('TOPDROP_Admin')) {
             return $new_settings;
         }
 
+        /**
+         * TOPDROP_Admin::show_form_dropship
+         * 
+         * Add custom user field
+         * @param   array   $user  user data
+         * 
+         * @return  HTML 
+         */
         public function show_form_dropship($user)
         {
             $dropship_name = get_user_meta($user->ID, 'topdrop_dropship_name', true);
@@ -63,6 +79,14 @@ if (!class_exists('TOPDROP_Admin')) {
             include_once TOPDROP_PLUGIN_PATH . '/views/admin-user-profile.php';
         }
 
+        /**
+         * TOPDROP_Admin::save_form_dropship
+         * 
+         * Save form user
+         * @param   array   $$user_id  user data
+         * 
+         * @return  void 
+         */
         public function save_form_dropship($user_id)
         {
             if (!current_user_can('edit_user', $user_id)) {
@@ -84,6 +108,16 @@ if (!class_exists('TOPDROP_Admin')) {
             }
         }
 
+        /**
+         * TOPDROP_Admin::add_flash_notice
+         * 
+         * Add notice
+         * @param   string  $message  Message
+         * @param   string  $type     Error type
+         * @param   string  $p        Pharagraph
+         * 
+         * @return  void 
+         */
         protected function add_flash_notice($message = '', $type = 'success', $p = true)
         {
             $old_notice = get_option('my_flash_notices', array());
@@ -94,6 +128,13 @@ if (!class_exists('TOPDROP_Admin')) {
             update_option('my_flash_notices', $old_notice, false);
         }
 
+        /**
+         * TOPDROP_Admin::display_flash_notices
+         * 
+         * Display notice
+         * 
+         * @return  HTML 
+         */
         public function display_flash_notices()
         {
             $notices = get_option('my_flash_notices', array());

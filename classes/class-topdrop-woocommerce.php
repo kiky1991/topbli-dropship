@@ -13,7 +13,6 @@ class TOPDROP_Woocommerce
     {
         $this->helper = new TOPDROP_Helper();
 
-        // add_action("wp_enqueue_scripts", array($this, 'register_assets_myaccount'));
         add_filter('woocommerce_account_menu_items', array($this, 'custom_nav_menu'), 99, 1);
         add_filter('woocommerce_settings_pages', array($this, 'add_endpoint_my_account'), 10, 1);
         add_filter('woocommerce_get_query_vars', array($this, 'add_woocommerce_query_vars'));
@@ -27,39 +26,6 @@ class TOPDROP_Woocommerce
         // save dropship
         add_action('template_redirect', array($this, 'save_dropship'));
         add_action('woocommerce_order_details_after_customer_details', array($this, 'dropship_information'), 10, 1);
-    }
-
-    /**
-     * TOPDROP_Woocommerce::register_assets_myaccount
-     * 
-     * Register front assets
-     * @access  public
-     * 
-     * @return  html
-     */
-    public function register_assets_myaccount()
-    {
-        if (is_wc_endpoint_url('dropship')) {
-            wp_enqueue_style('dropship', TOPDROP_PLUGIN_URI . '/assets/css/topup-balance.css', '', ATKPD_VERSION);
-            wp_enqueue_script('dropship', TOPDROP_PLUGIN_URI . "/assets/js/topup-balance.js", array('jquery'), ATKPD_VERSION);
-            wp_localize_script(
-                'dropship',
-                'topdrop',
-                array(
-                    'url'       => admin_url('admin-ajax.php')
-                )
-            );
-            wp_localize_script(
-                'dropship',
-                'atkpd_nonces',
-                array(
-                    'load_history_balance' => wp_create_nonce('atkpd-submit-topup-balance-nonce'),
-                    'load_form_topup' => wp_create_nonce('atkpd-topup-balance-nonce'),
-                    'submit_topup' => wp_create_nonce('atkpd-submit-topup-balance-nonce'),
-                    'topup_confirmation' => wp_create_nonce('atkpd-topup-confirmation-nonce'),
-                )
-            );
-        }
     }
 
     /**
