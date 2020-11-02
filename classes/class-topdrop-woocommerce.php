@@ -26,6 +26,7 @@ class TOPDROP_Woocommerce
 
         // save dropship
         add_action('template_redirect', array($this, 'save_dropship'));
+        add_action('woocommerce_order_details_after_customer_details', array($this, 'dropship_information'), 10, 1);
     }
 
     /**
@@ -261,5 +262,16 @@ class TOPDROP_Woocommerce
         wc_add_notice(__('Data dropship has been saved.', 'topdrop'));
         wp_safe_redirect(wc_get_page_permalink('myaccount') . 'dropship');
         exit;
+    }
+
+    public function dropship_information($order)
+    {
+        $order_id = $order->get_id();
+        $dropship_name = get_post_meta($order_id, '_topdrop_dropship_name', true);
+        $dropship_phone = get_post_meta($order_id, '_topdrop_dropship_phone', true);
+
+        if (!empty($dropship_name) && !empty($dropship_phone)) {
+            include_once TOPDROP_PLUGIN_PATH . 'views/view-order-dropship.php';
+        }
     }
 }
