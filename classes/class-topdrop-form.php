@@ -25,10 +25,17 @@ class TOPDROP_Form
      */
     public function form_dropship_information()
     {
-        if (!is_account_page()) {
-            $required = false;
-        } else {
-            $required = true;
+        $required_name = true;
+        $required_phone = false;
+
+        if (is_checkout()) {
+            $required_name = true;
+            $required_phone = false;
+        }
+
+        if (is_account_page()) {
+            $required_name = true;
+            $required_phone = false;
         }
 
         if (is_admin()) {
@@ -49,8 +56,8 @@ class TOPDROP_Form
                 'field' => array(
                     'type'        => 'text',
                     'label'       => __('Name', 'topdrop'),
-                    'placeholder' => __('Your dropship name', 'topdrop'),
-                    'required'    => $required,
+                    'placeholder' => __('', 'topdrop'),
+                    'required'    => $required_name,
                     'class'       => array('woocommerce-form-row', 'form-row-first')
                 ),
                 'value' => $dropship_name
@@ -59,8 +66,8 @@ class TOPDROP_Form
                 'field' => array(
                     'type'        => 'tel',
                     'label'       => __('Phone', 'topdrop'),
-                    'placeholder' => __('Your dropship phone', 'topdrop'),
-                    'required'    => $required,
+                    'placeholder' => __('', 'topdrop'),
+                    'required'    => $required_phone,
                     'class'       => array('woocommerce-form-row', 'form-row-last')
                 ),
                 'value' => $dropship_phone

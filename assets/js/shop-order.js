@@ -1,4 +1,10 @@
 jQuery(function ($) {
+    $(document.body).on('wc-init-tabbed-panels', function(){
+        $('#topdrop_name label > .optional').remove();
+        $('#topdrop_phone_field label > .optional').remove();
+        alert('fuck');
+    });
+
     $('#topdrop-load-dropship-data').on('click', function (e) {
         customer = $('#customer_user').val();
         $('.topbli-loader').show();
@@ -26,7 +32,8 @@ jQuery(function ($) {
             return;
         }
 
-        alert('Customer not valid.');
-        console.log('Customer not valid.');
+        alert('No dropship information saved for Guest.');
+        console.log('No dropship information saved for Guest.');
+        $('.topbli-loader').hide();
     });
 });

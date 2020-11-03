@@ -289,7 +289,7 @@ class TOPDROP_Woocommerce
     public function checkout_dropship_fields($checkout)
     {
         $dropguest = get_option('woocommerce_enable_customer_dropship', '');
-        if (!is_user_logged_in() && $dropguest == 'no') {
+        if (!is_user_logged_in() && $dropguest !== 'yes') {
             return;
         }
 

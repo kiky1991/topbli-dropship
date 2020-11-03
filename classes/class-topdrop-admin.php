@@ -163,17 +163,12 @@ if (!class_exists('TOPDROP_Admin')) {
          */
         public function admin_order_detail($order)
         {
-            $form = new TOPDROP_Form();
-
             $screen = get_current_screen();
             $user_id = $order->get_user_id();
-            if ($user_id > 0 || (!empty($screen->action && $screen->action === 'add'))) {
-                echo '<p class="form-field form-field-wide topdrop-load-dropship-information"><a id="topdrop-load-dropship-data">Load dropship information →</a> <span class="topbli-loader"></span></p>';
-            }
+            $dropship_name = get_post_meta($order->get_id(), '_topdrop_dropship_name', true);
+            $dropship_phone = get_post_meta($order->get_id(), '_topdrop_dropship_phone', true);
 
-            echo '<div class="form-dropship-information">';
-            $form->get_fields('form_dropship_information');
-            echo '</div>';
+            include_once TOPDROP_PLUGIN_PATH . 'views/admin-edit-shop.php';
         }
 
         /**
