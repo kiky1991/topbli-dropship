@@ -27,13 +27,19 @@ class TOPDROP_Form
         $dropship_name = get_user_meta($this->user_id, 'topdrop_dropship_name', true);
         $dropship_phone = get_user_meta($this->user_id, 'topdrop_dropship_phone', true);
 
+        if (is_checkout()) {
+            $required = false;
+        } else {
+            $required = true;
+        }
+
         return apply_filters('form_dropship_information', array(
             'topdrop_name' => array(
                 'field' => array(
                     'type'        => 'text',
                     'label'       => __('Name', 'topdrop'),
                     'placeholder' => __('Your dropship name', 'topdrop'),
-                    'required'    => true,
+                    'required'    => $required,
                     'class'       => array('woocommerce-form-row', 'form-row-first')
                 ),
                 'value' => $dropship_name
@@ -43,7 +49,7 @@ class TOPDROP_Form
                     'type'        => 'tel',
                     'label'       => __('Phone', 'topdrop'),
                     'placeholder' => __('Your dropship phone', 'topdrop'),
-                    'required'    => true,
+                    'required'    => $required,
                     'class'       => array('woocommerce-form-row', 'form-row-last')
                 ),
                 'value' => $dropship_phone
@@ -87,8 +93,6 @@ class TOPDROP_Form
      */
     public function form_dropship_settings()
     {
-
-
         return apply_filters('form_dropship_settings', array(
             'topdrop_auto' =>
             array(
@@ -96,6 +100,30 @@ class TOPDROP_Form
                     'type'        => 'checkbox',
                     'label'       => __('Auto Dropship', 'topdrop'),
                     'placeholder' => __('Enable / Disable auto dropship', 'topdrop'),
+                    'required'    => false,
+                    'class'       => array('input-checkbox', 'woocommerce-form-row', 'form-row-wide')
+                ),
+                'value' => ''
+            ),
+        ));
+    }
+
+    /**
+     * TOPDROP_Form::form_dropship_settings
+     * 
+     * Form for dropship global setting page
+     * 
+     * @return  array
+     */
+    public function form_dropship_privilege()
+    {
+        return apply_filters('form_dropship_privilege', array(
+            'topdrop_privilege' =>
+            array(
+                'field' => array(
+                    'type'        => 'checkbox',
+                    'label'       => __('Use dropship information ?', 'topdrop'),
+                    'placeholder' => __('', 'topdrop'),
                     'required'    => false,
                     'class'       => array('input-checkbox', 'woocommerce-form-row', 'form-row-wide')
                 ),

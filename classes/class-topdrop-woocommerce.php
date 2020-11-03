@@ -13,6 +13,10 @@ class TOPDROP_Woocommerce
     {
         $this->helper = new TOPDROP_Helper();
 
+        // assets
+        add_action("wp_enqueue_scripts", array($this, 'register_assets'));
+
+        // My-account
         add_filter('woocommerce_account_menu_items', array($this, 'custom_nav_menu'), 99, 1);
         add_filter('woocommerce_settings_pages', array($this, 'add_endpoint_my_account'), 10, 1);
         add_filter('woocommerce_get_query_vars', array($this, 'add_woocommerce_query_vars'));
@@ -26,6 +30,26 @@ class TOPDROP_Woocommerce
         // save dropship
         add_action('template_redirect', array($this, 'save_dropship'));
         add_action('woocommerce_order_details_after_customer_details', array($this, 'dropship_information'), 10, 1);
+
+        // Checkout
+        add_action('woocommerce_before_order_notes', array($this, 'checkout_dropship_fields'));
+        add_action('woocommerce_checkout_process', array($this, 'validate_checkout_dropship_fields'));
+        add_action('woocommerce_checkout_update_order_meta', array($this, 'saving_checkout_dropship_fields'));
+    }
+
+    /**
+     * TOPDROP_Woocommerce::register_assets
+     * 
+     * register assets
+     * 
+     * @return  file  
+     */
+    public function register_assets()
+    {
+        if (is_checkout()) {
+            wp_enqueue_style('topdrop-checkout', TOPDROP_PLUGIN_URI . '/assets/css/checkout.css', '', TOPDROP_VERSION);
+            wp_enqueue_script('topdrop-checkout', TOPDROP_PLUGIN_URI . "/assets/js/checkout.js", array('jquery'), TOPDROP_VERSION);
+        }
     }
 
     /**
@@ -259,6 +283,50 @@ class TOPDROP_Woocommerce
 
         if (!empty($dropship_name) && !empty($dropship_phone)) {
             include_once TOPDROP_PLUGIN_PATH . 'views/view-order-dropship.php';
+        }
+    }
+
+    public function checkout_dropship_fields($checkout)
+    {
+        $dropguest = get_option('woocommerce_enable_customer_dropship', '');
+        if (!is_user_logged_in() && $dropguest == 'no') {
+            return;
+        }
+
+        $form = new TOPDROP_Form();
+        include_once TOPDROP_PLUGIN_PATH . 'views/checkout-dropship.php';
+    }
+
+    public function validate_checkout_dropship_fields()
+    {
+        if (isset($_POST['topdrop_privilege']) && $_POST['topdrop_privilege'] == 1) {
+            if (!isset($_POST['topdrop_name']) || empty($_POST['topdrop_name'])) {
+                wc_add_notice(__('Field Dropship Name is required', 'topdrop'), 'error');
+            }
+
+            if (isset($_POST['topdrop_phone']) && !empty($_POST['topdrop_phone'])) {
+                $phone = isset($_POST['topdrop_phone']) ? sanitize_text_field(wp_unslash($_POST['topdrop_phone'])) : '';   // WPCS: Input var okay, CSRF ok.
+
+                $is_correct = preg_match('/^[0-9]{6,20}$/', $phone);
+                if ($phone && !$is_correct) {
+                    wc_add_notice(__('Field Dropship Phone is not correct input', 'topdrop'), 'error');
+                }
+            }
+        }
+    }
+
+    public function saving_checkout_dropship_fields($order_id)
+    {
+        if (isset($_POST['topdrop_privilege']) && $_POST['topdrop_privilege'] == 1) {
+            if (isset($_POST['topdrop_name']) && !empty($_POST['topdrop_name'])) {
+                $name = isset($_POST['topdrop_name']) ? sanitize_text_field(wp_unslash($_POST['topdrop_name'])) : '';   // WPCS: Input var okay, CSRF ok.
+                update_post_meta($order_id, '_topdrop_dropship_name', $name);
+            }
+
+            if (isset($_POST['topdrop_phone']) && !empty($_POST['topdrop_phone'])) {
+                $phone = isset($_POST['topdrop_phone']) ? sanitize_text_field(wp_unslash($_POST['topdrop_phone'])) : '';   // WPCS: Input var okay, CSRF ok.
+                update_post_meta($order_id, '_topdrop_dropship_phone', $phone);
+            }
         }
     }
 }

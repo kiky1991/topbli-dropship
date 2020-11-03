@@ -20,18 +20,21 @@ define('TOPDROP_VERSION', '1.0.0');
 define('TOPDROP_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('TOPDROP_PLUGIN_URI', plugins_url(basename(plugin_dir_path(__FILE__)), basename(__FILE__)));
 
-// load files.
+// load autoload.
 require_once TOPDROP_PLUGIN_PATH . 'autoload.php';
+
+// load manager.
+include_once TOPDROP_PLUGIN_PATH . 'libs/topbli-dropship-manager.php';
 
 // set default timezone
 date_default_timezone_set("Asia/Bangkok");
 
-if (!class_exists('Tobli_Dropship')) {
+if (!class_exists('Topbli_Dropship')) {
 
     /**
      * Class Tobli_Dropship
      */
-    class Tobli_Dropship
+    class Topbli_Dropship
     {
 
         /**
@@ -75,5 +78,5 @@ if (!class_exists('Tobli_Dropship')) {
     }
 
     // Let's Go bebs...!
-    new Tobli_Dropship();
+    new Topbli_Dropship();
 }
