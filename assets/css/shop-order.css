@@ -1,0 +1,38 @@
+#topdrop-load-dropship-data {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.topbli-loader {
+  border: 2px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 2px solid #3498db;
+  width: 16px;
+  height: 16px;
+  -webkit-animation: topblispin 1s linear infinite;
+  animation: topblispin 1s linear infinite;
+  position: absolute;
+  margin-left: 5px;
+  display: none;
+}
+
+/* Safari */
+@-webkit-keyframes topblispin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes topblispin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

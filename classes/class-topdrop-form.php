@@ -13,6 +13,7 @@ class TOPDROP_Form
     public function __construct()
     {
         $this->user_id = get_current_user_id();
+        $this->helper = new TOPDROP_Helper();
     }
 
     /**
@@ -24,13 +25,23 @@ class TOPDROP_Form
      */
     public function form_dropship_information()
     {
-        $dropship_name = get_user_meta($this->user_id, 'topdrop_dropship_name', true);
-        $dropship_phone = get_user_meta($this->user_id, 'topdrop_dropship_phone', true);
-
-        if (is_checkout()) {
+        if (!is_account_page()) {
             $required = false;
         } else {
             $required = true;
+        }
+
+        if (is_admin()) {
+            $screen = get_current_screen();
+            if (!is_null($screen) && $screen->id == 'shop_order') {
+                global $post;
+
+                $dropship_name = get_post_meta($post->ID, '_topdrop_dropship_name', true);
+                $dropship_phone = get_post_meta($post->ID, '_topdrop_dropship_phone', true);
+            }
+        } else {
+            $dropship_name = get_user_meta($this->user_id, 'topdrop_dropship_name', true);
+            $dropship_phone = get_user_meta($this->user_id, 'topdrop_dropship_phone', true);
         }
 
         return apply_filters('form_dropship_information', array(
