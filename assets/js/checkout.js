@@ -4,11 +4,19 @@ jQuery(function ($) {
         $('#topdrop_phone_field label > .optional').remove();
     });
 
+    $(document).on('ready', function () {
+        check_dropship();
+    });
+
     $("input#topdrop_privilege").click(function () {
-        if ( this.checked ){
+        check_dropship();
+    });
+
+    function check_dropship() { 
+        if ( $("input#topdrop_privilege").checked ){
             $(".topdrop-dropship-information").slideToggle(100);
         } else {
             $(".topdrop-dropship-information").slideToggle(0);
         }
-    });
+    }
 });

@@ -139,6 +139,9 @@ class TOPDROP_Form
      */
     public function form_dropship_privilege()
     {
+        $dropship_auto = get_user_meta($this->user_id, 'topdrop_dropship_auto', true);
+        $value = ($dropship_auto === 'yes') ? 1 : 0;
+
         return apply_filters('form_dropship_privilege', array(
             'topdrop_privilege' =>
             array(
@@ -149,7 +152,7 @@ class TOPDROP_Form
                     'required'    => false,
                     'class'       => array('input-checkbox', 'woocommerce-form-row', 'form-row-wide')
                 ),
-                'value' => ''
+                'value' => $value
             ),
         ));
     }
