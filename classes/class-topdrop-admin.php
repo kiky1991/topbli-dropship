@@ -180,17 +180,20 @@ if (!class_exists('TOPDROP_Admin')) {
          */
         public function save_admin_order_detail($post_id)
         {
-            if (isset($_POST['topdrop_name']) && !empty($_POST['topdrop_name'])) {
+            if (isset($_POST['topdrop_name'])) {
                 $name = isset($_POST['topdrop_name']) ? sanitize_text_field(wp_unslash($_POST['topdrop_name'])) : '';   // WPCS: Input var okay, CSRF ok.
                 update_post_meta($post_id, '_topdrop_dropship_name', $name);
             }
 
-            if (isset($_POST['topdrop_phone']) && !empty($_POST['topdrop_phone'])) {
+            if (isset($_POST['topdrop_phone'])) {
                 $phone = isset($_POST['topdrop_phone']) ? sanitize_text_field(wp_unslash($_POST['topdrop_phone'])) : '';   // WPCS: Input var okay, CSRF ok.
-                $is_correct = preg_match('/^[0-9]{6,20}$/', $phone);
-                if ($phone && !$is_correct) {
-                    $this->add_flash_notice('Phone number not valid.', 'error');
-                    return;
+
+                if (!empty($phone)) {
+                    $is_correct = preg_match('/^[0-9]{6,20}$/', $phone);
+                    if ($phone && !$is_correct) {
+                        $this->add_flash_notice('Phone number not valid.', 'error');
+                        return;
+                    }
                 }
 
                 update_post_meta($post_id, '_topdrop_dropship_phone', $phone);

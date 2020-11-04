@@ -49,6 +49,10 @@ class TOPDROP_Form
         } else {
             $dropship_name = get_user_meta($this->user_id, 'topdrop_dropship_name', true);
             $dropship_phone = get_user_meta($this->user_id, 'topdrop_dropship_phone', true);
+            $dropship_auto = get_user_meta($this->user_id, 'topdrop_dropship_auto', true);
+
+            $dropship_name = is_checkout() && ($dropship_auto == 'no') ? '' : $dropship_name;
+            $dropship_phone = is_checkout() && ($dropship_auto == 'no') ? '' : $dropship_phone;
         }
 
         return apply_filters('form_dropship_information', array(

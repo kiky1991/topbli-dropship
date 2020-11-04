@@ -319,12 +319,12 @@ class TOPDROP_Woocommerce
     {
         if (isset($_POST['topdrop_privilege']) && $_POST['topdrop_privilege'] == 1) {
             if (isset($_POST['topdrop_name']) && !empty($_POST['topdrop_name'])) {
-                $name = isset($_POST['topdrop_name']) ? sanitize_text_field(wp_unslash($_POST['topdrop_name'])) : '';   // WPCS: Input var okay, CSRF ok.
+                $name = sanitize_text_field(wp_unslash($_POST['topdrop_name']));   // WPCS: Input var okay, CSRF ok.
                 update_post_meta($order_id, '_topdrop_dropship_name', $name);
             }
 
-            if (isset($_POST['topdrop_phone']) && !empty($_POST['topdrop_phone'])) {
-                $phone = isset($_POST['topdrop_phone']) ? sanitize_text_field(wp_unslash($_POST['topdrop_phone'])) : '';   // WPCS: Input var okay, CSRF ok.
+            if (isset($_POST['topdrop_phone'])) {
+                $phone = !empty($_POST['topdrop_phone']) ? sanitize_text_field(wp_unslash($_POST['topdrop_phone'])) : '';   // WPCS: Input var okay, CSRF ok.
                 update_post_meta($order_id, '_topdrop_dropship_phone', $phone);
             }
         }

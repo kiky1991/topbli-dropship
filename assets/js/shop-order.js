@@ -2,7 +2,6 @@ jQuery(function ($) {
     $(document.body).on('wc-init-tabbed-panels', function(){
         $('#topdrop_name label > .optional').remove();
         $('#topdrop_phone_field label > .optional').remove();
-        alert('fuck');
     });
 
     $('#topdrop-load-dropship-data').on('click', function (e) {
