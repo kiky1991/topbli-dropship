@@ -48,7 +48,7 @@ class TOPDROP_Woocommerce
     {
         if (is_checkout()) {
             wp_enqueue_style('topdrop-checkout', TOPDROP_PLUGIN_URI . '/assets/css/checkout.css', '', TOPDROP_VERSION);
-            wp_enqueue_script('topdrop-checkout', TOPDROP_PLUGIN_URI . "/assets/js/checkout.js", array('jquery'), TOPDROP_VERSION);
+            wp_enqueue_script('topdrop-checkout', TOPDROP_PLUGIN_URI . "/assets/js/checkout.js", array('jquery'), TOPDROP_VERSION, true);
         }
     }
 

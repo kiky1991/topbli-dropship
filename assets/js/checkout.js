@@ -5,18 +5,16 @@ jQuery(function ($) {
     });
 
     $(document).on('ready', function () {
-        check_dropship();
+        if ($("#topdrop_privilege").is(':checked')){
+            $(".topdrop-dropship-information").show();
+        }
     });
 
     $("input#topdrop_privilege").click(function () {
-        check_dropship();
-    });
-
-    function check_dropship() { 
-        if ( $("input#topdrop_privilege").checked ){
+        if ( this.checked ){
             $(".topdrop-dropship-information").slideToggle(100);
         } else {
             $(".topdrop-dropship-information").slideToggle(0);
         }
-    }
+    });
 });
