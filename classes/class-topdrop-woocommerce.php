@@ -301,7 +301,7 @@ class TOPDROP_Woocommerce
     {
         if (isset($_POST['topdrop_privilege']) && $_POST['topdrop_privilege'] == 1) {
             if (!isset($_POST['topdrop_name']) || empty($_POST['topdrop_name'])) {
-                wc_add_notice(__('Field Dropship Name is required', 'topdrop'), 'error');
+                wc_add_notice(__('Dropship Name is required Field', 'topdrop'), 'error');
             }
 
             if (isset($_POST['topdrop_phone']) && !empty($_POST['topdrop_phone'])) {

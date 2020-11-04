@@ -23,9 +23,6 @@ define('TOPDROP_PLUGIN_URI', plugins_url(basename(plugin_dir_path(__FILE__)), ba
 // load autoload.
 require_once TOPDROP_PLUGIN_PATH . 'autoload.php';
 
-// load manager.
-include_once TOPDROP_PLUGIN_PATH . 'libs/topbli-dropship-manager.php';
-
 // set default timezone
 date_default_timezone_set("Asia/Bangkok");
 
