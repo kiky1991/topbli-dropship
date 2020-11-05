@@ -12,3 +12,11 @@
         <input type="hidden" name="action" value="topdrop_save_dropship" />
     </p>
 </form>
+
+<script type="text/javascript">
+    jQuery(function($) {
+        $(document).on('ready', function() {
+            $('#topdrop_auto_field label > .optional').remove();
+        });
+    });
+</script>
