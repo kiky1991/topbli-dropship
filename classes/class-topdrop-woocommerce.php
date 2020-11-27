@@ -241,7 +241,7 @@ class TOPDROP_Woocommerce
             return;
         }
 
-        $required = ['topdrop_name' => 'Dropship Name', 'topdrop_phone' => 'Dropship Phone'];
+        $required = ['topdrop_name' => 'Dropship Name'];
         $errors = array();
         foreach (array_keys($_POST) as $post) {
             if (empty($_POST[$post]) && in_array($post, array_keys($required))) {
@@ -250,7 +250,7 @@ class TOPDROP_Woocommerce
         }
 
         if (!empty($errors)) {
-            wc_add_notice(__('Field ' . implode(', ', $errors) . ' is required', 'topdrop'), 'error');
+            wc_add_notice(__(implode(', ', $errors) . ' is a required field', 'topdrop'), 'error');
             wp_safe_redirect(wc_get_page_permalink('myaccount') . 'dropship');
             exit;
         }
@@ -261,7 +261,7 @@ class TOPDROP_Woocommerce
 
         $is_correct = preg_match('/^[0-9]{6,20}$/', $phone);
         if ($phone && !$is_correct) {
-            wc_add_notice(__('Field Dropship Phone is not correct input', 'topdrop'), 'error');
+            wc_add_notice(__('Dropship Phone is not a valid phone number', 'topdrop'), 'error');
             wp_safe_redirect(wc_get_page_permalink('myaccount') . 'dropship');
             exit;
         }
@@ -301,7 +301,7 @@ class TOPDROP_Woocommerce
     {
         if (isset($_POST['topdrop_privilege']) && $_POST['topdrop_privilege'] == 1) {
             if (!isset($_POST['topdrop_name']) || empty($_POST['topdrop_name'])) {
-                wc_add_notice(__('Dropship Name is required Field', 'topdrop'), 'error');
+                wc_add_notice(__('Dropship Name is required field', 'topdrop'), 'error');
             }
 
             if (isset($_POST['topdrop_phone']) && !empty($_POST['topdrop_phone'])) {
@@ -309,7 +309,7 @@ class TOPDROP_Woocommerce
 
                 $is_correct = preg_match('/^[0-9]{6,20}$/', $phone);
                 if ($phone && !$is_correct) {
-                    wc_add_notice(__('Field Dropship Phone is not correct input', 'topdrop'), 'error');
+                    wc_add_notice(__('Dropship Phone is not a valid phone number', 'topdrop'), 'error');
                 }
             }
         }

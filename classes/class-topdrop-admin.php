@@ -32,7 +32,7 @@ if (!class_exists('TOPDROP_Admin')) {
             // notices
             add_action('admin_notices', array($this, 'display_flash_notices'), 12);
 
-            $this->helper      = new TOPDROP_Helper();
+            $this->helper = new TOPDROP_Helper();
         }
 
         /**

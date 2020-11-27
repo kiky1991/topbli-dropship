@@ -22,6 +22,7 @@ define('TOPDROP_PLUGIN_URI', plugins_url(basename(plugin_dir_path(__FILE__)), ba
 
 // load autoload.
 require_once TOPDROP_PLUGIN_PATH . 'autoload.php';
+include_once TOPDROP_PLUGIN_PATH . 'libs/print-invoices-packing-slip-labels-for-woocommerce.php';
 
 // set default timezone
 date_default_timezone_set("Asia/Bangkok");
@@ -49,6 +50,7 @@ if (!class_exists('Topbli_Dropship')) {
             new TOPDROP_Admin();
             new TOPDROP_Woocommerce();
             new TOPDROP_Ajax();
+            new ThirdParty_Print_Invoices_Packing_Slip_Labels_WebToffee();
             register_activation_hook(__FILE__, array($this, 'on_plugin_activation'));
         }
 
