@@ -4,7 +4,7 @@
  * Plugin Name:     Topbli Dropship
  * Plugin URI:      https://www.cybersoftmedia.com
  * Description:     Topbli Dropship is dropship information for topbli.com site
- * Version:         1.0.4
+ * Version:         1.1.1
  * Author:          Hengky ST
  * Author URI:      https://www.cybersoftmedia.com
  * License:         GPL
@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
 }
 
 // constants.
-define('TOPDROP_VERSION', '1.0.4');
+define('TOPDROP_VERSION', '1.1.1');
 define('TOPDROP_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('TOPDROP_PLUGIN_URI', plugins_url(basename(plugin_dir_path(__FILE__)), basename(__FILE__)));
 

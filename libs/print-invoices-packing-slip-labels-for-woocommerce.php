@@ -16,6 +16,7 @@ if (!class_exists('ThirdParty_Print_Invoices_Packing_Slip_Labels_WebToffee')) {
             if ($this->is_invoice_packing_slip_webtoffee()) {
                 add_filter('wf_module_convert_to_design_view_html', array($this, 'replace_from_toffee_view_html'), 50, 3);
                 add_filter('wf_module_generate_template_html', array($this, 'replace_from_toffee_template_html'), 50, 6);
+                add_filter('wf_pklist_add_additional_info', array($this, 'wt_pklist_add_additional_data'), 50, 3);
             }
         }
 
@@ -74,16 +75,31 @@ if (!class_exists('ThirdParty_Print_Invoices_Packing_Slip_Labels_WebToffee')) {
          */
         private function search_replace($find_replace, $order = null)
         {
+            // var_dump($find_replace); die;
             if (!is_null($order)) {
                 $dropship_name = get_post_meta($order->get_id(), '_topdrop_dropship_name', true);
                 $dropship_phone = get_post_meta($order->get_id(), '_topdrop_dropship_phone', true);
-                $format_phone = !empty($dropship_phone) ? "- $dropship_phone" : ''; 
+                $format_phone = !empty($dropship_phone) ? "- $dropship_phone" : '';
                 if (!empty($dropship_name)) {
                     $find_replace['[wfte_from_address]'] = "$dropship_name $format_phone";
+                    $find_replace['[wfte_additional_data]'] = "[wfte_additional_data]";
+                    $find_replace['[wfte_weight]'] = "[wfte_weight]";
+                    $find_replace['[wfte_box_name]'] = "[wfte_box_name]dd";
                 }
             }
 
             return $find_replace;
+        }
+
+        public function wt_pklist_add_additional_data($additional_info, $template_type, $order)
+        {
+            if (is_null($order)) {
+                return $additional_info;
+            }
+
+            $additional_info .= 'Shipping Fee: ' . wc_price($order->get_shipping_total());
+            $additional_info .= '<br/>Shipping Service: ' . $order->get_shipping_method();
+            return $additional_info;
         }
     }
 }

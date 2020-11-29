@@ -251,7 +251,7 @@ class TOPDROP_Woocommerce
 
         if (!empty($errors)) {
             wc_add_notice(__(implode(', ', $errors) . ' is a required field', 'topdrop'), 'error');
-            wp_safe_redirect(wc_get_page_permalink('myaccount') . 'dropship');
+            wp_safe_redirect(wc_get_endpoint_url('dropship', '', wc_get_page_permalink('myaccount')));
             exit;
         }
 
@@ -262,7 +262,7 @@ class TOPDROP_Woocommerce
         $is_correct = preg_match('/^[0-9]{6,20}$/', $phone);
         if ($phone && !$is_correct) {
             wc_add_notice(__('Dropship Phone is not a valid phone number', 'topdrop'), 'error');
-            wp_safe_redirect(wc_get_page_permalink('myaccount') . 'dropship');
+            wp_safe_redirect(wc_get_endpoint_url('dropship', '', wc_get_page_permalink('myaccount')));
             exit;
         }
 
@@ -271,7 +271,7 @@ class TOPDROP_Woocommerce
         update_user_meta($user_id, 'topdrop_dropship_auto', ($auto == 1) ? 'yes' : 'no');
 
         wc_add_notice(__('Data dropship has been saved.', 'topdrop'));
-        wp_safe_redirect(wc_get_page_permalink('myaccount') . 'dropship');
+        wp_safe_redirect(wc_get_endpoint_url('dropship', '', wc_get_page_permalink('myaccount')));
         exit;
     }
 
